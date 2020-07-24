@@ -21,6 +21,20 @@ class TwilioService {
       twiml: response.toString(),
     });
   }
+
+  static async createCallStream(phoneNumber, streamUrl) {
+    const response = new VoiceResponse();
+    const connect = response.connect();
+    connect.stream({
+      url: streamUrl,
+    });
+
+    const result = await twilio.calls.create({
+      from: this.phoneNumber,
+      to: phoneNumber,
+      twiml: response.toString(),
+    });
+  }
 }
 
 module.exports = TwilioService;
