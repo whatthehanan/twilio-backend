@@ -36,6 +36,38 @@ class TwilioController {
       });
     }
   }
+
+  static async createToken(req, res) {
+    try {
+      const token = await TwilioService.createToken();
+
+      return res.status(200).json({
+        status: "success",
+        data: {
+          token,
+        },
+      });
+    } catch (err) {
+      return res.status(500).json({
+        status: "error",
+        message: err.message,
+      });
+    }
+  }
+
+  static async handleTwimlWebhook(req, res) {
+    try {
+      const xml = await TwilioService.handleTwimlWebhook(req.body.number);
+
+      res.type("text/xml");
+      res.send(xml);
+    } catch (err) {
+      return res.status(500).json({
+        status: "error",
+        message: err.message,
+      });
+    }
+  }
 }
 
 module.exports = TwilioController;
